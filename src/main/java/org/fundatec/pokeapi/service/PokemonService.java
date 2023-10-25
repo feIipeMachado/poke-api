@@ -21,5 +21,5 @@ public class PokemonService {
     public Pokemon buscarPorNome(String nome) {
         return repository.findByNome(nome);
     }
-
+//\
 }
