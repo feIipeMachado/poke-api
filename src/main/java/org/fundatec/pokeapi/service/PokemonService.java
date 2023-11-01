@@ -19,7 +19,17 @@ public class PokemonService {
     }
 
     public Pokemon buscarPorNome(String nome) {
-        return repository.findByNome(nome);
+        return repository.findByNomeIgnoreCase(nome);
+    }
+
+    public void adicionar(Pokemon pokemon) {
+        repository.save(pokemon);
+    }
+
+    public Pokemon removerPorId(Long id) {
+        Pokemon pokemon = repository.findById(id).get();
+        repository.delete(pokemon);
+        return pokemon;
     }
 //\
 }
