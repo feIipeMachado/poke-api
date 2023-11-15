@@ -31,5 +31,20 @@ public class PokemonService {
         repository.delete(pokemon);
         return pokemon;
     }
+
+    public Pokemon removerPorNome(String nome) {
+        Pokemon pokemon = repository.findByNomeIgnoreCase(nome);
+        repository.delete(pokemon);
+        return pokemon;
+    }
+
+    public Pokemon editarNomeTipo (Long id, String nome, String tipo) {
+        Pokemon pokemon = repository.findById(id).get();
+        pokemon.setNome(nome);
+        pokemon.setTipo(tipo);
+        return pokemon;
+    }
+
+
 //\
 }

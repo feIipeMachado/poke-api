@@ -1,6 +1,8 @@
-package org.fundatec.pokeapi.controller;
+  package org.fundatec.pokeapi.controller;
 
 import org.apache.coyote.Request;
+import org.fundatec.pokeapi.integration.response.PokemonResponse;
+import org.fundatec.pokeapi.integration.service.PokemonIntegrationService;
 import org.fundatec.pokeapi.model.Pokemon;
 import org.fundatec.pokeapi.service.PokemonService;
 import org.springframework.http.HttpStatus;
@@ -15,9 +17,10 @@ import java.util.Locale;
 public class PokemonController {
 
     private PokemonService service;
-
+    private PokemonIntegrationService integrationService;
     public PokemonController(PokemonService service) {
         this.service = service;
+        this.integrationService = integrationService;
     }
 
     @GetMapping
@@ -40,6 +43,22 @@ public class PokemonController {
     public ResponseEntity<Pokemon> removerPokemonPorID(@PathVariable("id") Long id) {
         service.removerPorId(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/nome/{nome}")
+    public ResponseEntity<Pokemon> removerPokemonPorNome(@PathVariable("nome") String nome) {
+        service.removerPorNome(nome);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/nome/tipo/{nome}/{tipo}")
+
+
+    @GetMapping("/api-externa/{nome}")
+    public ResponseEntity<PokemonResponse> buscarPokemonNoServicoExterno(@PathVariable("nome") String nome) {
+        PokemonResponse pokemonBuscadoServicoExterno =
+                this.integrationService.buscarPokemonNoServicoExternoPeloNome(nome);
+        return ResponseEntity.ok(pokemonBuscadoServicoExterno);
     }
 
 
