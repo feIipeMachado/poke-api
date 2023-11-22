@@ -54,10 +54,9 @@ public class PokemonController {
     @PutMapping("editar/{id}")
     public ResponseEntity<PokemonResponse> editarPokemonNomeTipo(@PathVariable("id") Long id,
                                                                  @RequestBody
-                                                                 String nome,
-                                                                 @RequestBody
-                                                                 String tipo) {
-        service.editarNomeTipo(id, nome, tipo);
+                                                                 Pokemon pokemon
+                                                                 ) {
+        service.editarNomeTipo(id, pokemon);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

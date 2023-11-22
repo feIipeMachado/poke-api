@@ -38,11 +38,12 @@ public class PokemonService {
         return pokemon;
     }
 
-    public Pokemon editarNomeTipo (Long id, String nome, String tipo) {
-        Pokemon pokemon = repository.findById(id).get();
-        pokemon.setNome(nome);
-        pokemon.setTipo(tipo);
-        return pokemon;
+    public Pokemon editarNomeTipo (Long id, Pokemon pokemon) {
+        Pokemon pokemonParaAlterar = repository.findById(id).get();
+        pokemonParaAlterar.setNome(pokemon.getNome());
+        pokemonParaAlterar.setTipo(pokemon.getTipo());
+        repository.save(pokemonParaAlterar);
+        return pokemonParaAlterar;
     }
 
 
