@@ -18,7 +18,7 @@ public class PokemonController {
 
     private PokemonService service;
     private PokemonIntegrationService integrationService;
-    public PokemonController(PokemonService service) {
+    public PokemonController(PokemonService service, PokemonIntegrationService integrationService) {
         this.service = service;
         this.integrationService = integrationService;
     }
@@ -39,20 +39,27 @@ public class PokemonController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("id/{id}")
     public ResponseEntity<Pokemon> removerPokemonPorID(@PathVariable("id") Long id) {
         service.removerPorId(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/nome/{nome}")
+    @DeleteMapping("nome/{nome}")
     public ResponseEntity<Pokemon> removerPokemonPorNome(@PathVariable("nome") String nome) {
         service.removerPorNome(nome);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/nome/tipo/{nome}/{tipo}")
-
+    @PutMapping("editar/{id}")
+    public ResponseEntity<PokemonResponse> editarPokemonNomeTipo(@PathVariable("id") Long id,
+                                                                 @RequestBody
+                                                                 String nome,
+                                                                 @RequestBody
+                                                                 String tipo) {
+        service.editarNomeTipo(id, nome, tipo);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @GetMapping("/api-externa/{nome}")
     public ResponseEntity<PokemonResponse> buscarPokemonNoServicoExterno(@PathVariable("nome") String nome) {

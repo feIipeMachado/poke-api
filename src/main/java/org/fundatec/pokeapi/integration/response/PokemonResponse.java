@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class PokemonResponse {
-
     private String name;
     private int height;
     private int weight;
