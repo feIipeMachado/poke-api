@@ -1,13 +1,12 @@
-package org.fundatec.pokeapi.repository;
+package poke.api.repository;
 
-import org.fundatec.pokeapi.model.Pokemon;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import poke.api.model.Pokemon;
 
 @Repository
 public interface PokemonRepository extends JpaRepository<Pokemon, Long> {
 
-    public Pokemon findByNomeIgnoreCase(String nome);
-
+    public Pokemon findByNome(String nome);
 
 }

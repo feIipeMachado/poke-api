@@ -1,10 +1,11 @@
-package org.fundatec.pokeapi.integration.service;
+package poke.api.integration.service;
 
-import org.fundatec.pokeapi.integration.response.PokemonResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import poke.api.integration.response.PokemonResponse;
+
 @Service
 public class PokemonIntegrationService {
 
@@ -12,20 +13,23 @@ public class PokemonIntegrationService {
 
     @Value("${pokemon-external-api}")
     private String uri;
+
     public PokemonIntegrationService(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
     }
 
     public PokemonResponse buscarPokemonNoServicoExternoPeloNome(String nome) {
         String urlCompleta = this.uri + "/" + nome;
-
         PokemonResponse pokemonExterno = this.restTemplate.getForObject(urlCompleta, PokemonResponse.class);
-
-        String nomePokemonAPIExterna = pokemonExterno.getName();
-        String inicialPokemon = String.valueOf(nomePokemonAPIExterna.charAt(0));
-        String inicialPokemonToUpperCase = inicialPokemon.toUpperCase();
-        String nomeToUpperCase = nomePokemonAPIExterna.replace(inicialPokemon, inicialPokemonToUpperCase);
-        pokemonExterno.setName(nomeToUpperCase);
+        String nomePokemonApiExterna = pokemonExterno.getName();
+        tornarPrimeiraLetraEmMaiuscula(pokemonExterno, nomePokemonApiExterna);
         return pokemonExterno;
     }
+
+    private static void tornarPrimeiraLetraEmMaiuscula(PokemonResponse pokemonExterno, String nomePokemonApiExterna) {
+        String primeiraLetra = nomePokemonApiExterna.substring(0, 1);
+        String novaPrimeiraLetra = primeiraLetra.toUpperCase();
+        pokemonExterno.setName(nomePokemonApiExterna.replace(primeiraLetra, novaPrimeiraLetra));
+    }
+
 }

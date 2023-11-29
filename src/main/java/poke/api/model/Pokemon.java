@@ -1,16 +1,19 @@
-package org.fundatec.pokeapi.model;
+package poke.api.model;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 
 @Entity
-@Table
+@Table(name = "Pokemon_Tb")
 @Data
+
 public class Pokemon {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @Column
     private String nome;
     @Column
@@ -21,4 +24,5 @@ public class Pokemon {
     private double peso;
     @Column
     private int level;
+
 }

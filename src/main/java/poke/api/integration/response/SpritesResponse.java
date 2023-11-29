@@ -1,4 +1,4 @@
-package org.fundatec.pokeapi.integration.response;
+package poke.api.integration.response;
 
 import lombok.Data;
 
@@ -6,5 +6,4 @@ import lombok.Data;
 public class SpritesResponse {
 
     private String front_default;
-    private String back_default;
 }
