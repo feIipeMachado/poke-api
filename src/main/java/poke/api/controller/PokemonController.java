@@ -35,9 +35,14 @@ public class PokemonController {
         return ResponseEntity.ok(this.pokemonService.buscarTodos());
     }
 
-    @GetMapping("/{nome}")
+    @GetMapping("/nome/{nome}")
     public ResponseEntity<Pokemon> buscarPokemonPeloNome(@PathVariable("nome") String nome) {
         return ResponseEntity.ok(this.pokemonService.buscarPokemonPorNome(nome));
+    }
+
+    @GetMapping("/tipo/{tipo}")
+    public ResponseEntity<List<Pokemon>> buscarPokemonPeloTipo(@PathVariable("tipo") String tipo) {
+        return ResponseEntity.ok(this.pokemonService.buscarPokemonPorTipo(tipo));
     }
 
     @PostMapping()

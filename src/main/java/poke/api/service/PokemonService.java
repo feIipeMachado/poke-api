@@ -25,15 +25,29 @@ public class PokemonService {
     }
 
     public Pokemon buscarPokemonPorNome(String nome) {
-        return pokemonRepository.findByNome(nome);
+        Pokemon pokemonBuscado = pokemonRepository.findByNome(nome);
+        if (pokemonBuscado == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pokémon " + nome + " não existe");
+        } else {
+            return pokemonBuscado;
+        }
+    }
+
+    public List<Pokemon> buscarPokemonPorTipo(String tipo) {
+        List<Pokemon> pokemonsBuscados = pokemonRepository.findByTipo(tipo);
+        if (pokemonsBuscados.stream().count() == 0 ) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo " + tipo + " não existe");
+        } else {
+            return pokemonsBuscados;
+        }
     }
 
     public void adicionar(PokemonRequestDto pokemon) {
-        String pokemonAdicionado = pokemon.getNome();
-        Pokemon pokemonExistente = buscarPokemonPorNome(pokemonAdicionado);
+        String nomePokemonAdicionado = pokemon.getNome();
+        Pokemon pokemonExistente = pokemonRepository.findByNome(nomePokemonAdicionado);
 
         if (pokemonExistente != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pokémon " + pokemonAdicionado + " já existe");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pokémon " + nomePokemonAdicionado + " já existe");
         } else {
             Pokemon pokemonEntidade = PokemonConverter.converterPraEntidade(pokemon);
 
@@ -54,7 +68,7 @@ public class PokemonService {
 
     public Pokemon removerPorNome(String nome) {
         Pokemon pokemonParaRemover = pokemonRepository.findByNome(nome);
-        if (pokemonParaRemover == null ) {
+        if (pokemonParaRemover == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pokémon " + nome + " não existe");
         } else {
             pokemonRepository.delete(pokemonParaRemover);
@@ -66,7 +80,7 @@ public class PokemonService {
         return pokemonRepository.count();
     }
 
-    public Pokemon alterarPorId(Long id, Pokemon pokemon){
+    public Pokemon alterarPorId(Long id, Pokemon pokemon) {
         Pokemon pokemonEncontrado = pokemonRepository.findById(id).get();
         pokemonEncontrado.setNome(pokemon.getNome());
         pokemonEncontrado.setTipo(pokemon.getTipo());
